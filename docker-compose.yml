@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  acg:
+    container_name: acg
+    build:
+      # all paths are relative to the location of docker-compose.yml
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8084:80"
+    volumes:
+      # Modify the first param of the line below with
+      # the location of your application when developing
+      - ./site/acg:/var/www/html/site/acg
+  dsg:
+    container_name: dsg
+    build:
+      # all paths are relative to the location of docker-compose.yml
+      context: .
+      dockerfile: DsgDockerfile
+    ports:
+      - "8085:80"
+    volumes:
+      # Modify the first param of the line below with
+      # the location of your application when developing
+      - ./site/dsg:/var/www/html/site/dsg
+      - /home:/home
+    depends_on:
+      - acg
+
+networks:
+  default:
+    driver: bridge
